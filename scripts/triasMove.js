@@ -60,7 +60,7 @@ function init() {
     for (var i = 20; i >= 0; i--) {
 
         enemies.push(createSphere({
-            radius: (10 * Math.random() + 1),
+            radius: (20 * Math.random() + 5),
             color: generateColor(),
             position: {
                 x: 2 * wallsWidth * Math.random() - wallsWidth,

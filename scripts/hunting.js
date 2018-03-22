@@ -22,17 +22,17 @@ function theyEat() {
         var hunting = true;
         var j = i + 1;
         var nearest_ball = {
-            min: 50,
+            min: 5,
             hunter: -1,
             victim: -1
         };
         while (j < enemies.length && hunting == true) {
 
             var distance = Math.sqrt(((enemies[i].position.x - enemies[j].position.x) ^ 2) + (enemies[i].position.y - enemies[j].position.y) ^ 2);
-            // console.log("x0...."+distance);
+            
             if (enemies[i].radius > enemies[j].radius) {
                 if (distance < enemies[i].radius) {
-                    // console.log("x1...." + distance);
+                    
                     var r_plus = enemies[j].radius;
                     // enemies.splice(j, 1);
                     enemies[j].changeColor({
@@ -42,7 +42,7 @@ function theyEat() {
                     j -= 1;
 
                 } else if (distance < nearest_ball.min) {
-                    // console.log("poutsa");
+                    
                     nearest_ball.min = distance;
                     nearest_ball.hunter = i;
                     nearest_ball.victim = j;
@@ -52,7 +52,7 @@ function theyEat() {
             } else if (enemies[i].radius < enemies[j].radius) {
 
                 if (distance < enemies[j].radius) {
-                    // console.log("x2...." + distance);
+                   
                     var r_plus2 = enemies[i].radius;
                     //enemies.splice(i, 1);
                     enemies[i].changeColor({

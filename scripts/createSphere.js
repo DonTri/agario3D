@@ -24,7 +24,7 @@ function createSphere(params) {
     var acceleration = Fpower / ((4 / 3) * Math.PI * params.radius ^ 3);
 
     //calculate max speed of the sphere
-    var maxSpeed = 1.5;
+    var maxSpeed = 5 / params.radius;
 
     //calculate max speed of the sphere
     var speed = 0;

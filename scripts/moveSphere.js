@@ -99,19 +99,23 @@ function moveIt() {
 
 function calculateDistanceToMove(sphere) {
 
-    var timeTraveled = Date.now() - sphere.time;
+    var timeTraveled = (Date.now() - sphere.time)/1000;
+
+
     sphere.time = Date.now();
 
     if (sphere.speed < sphere.maxSpeed) {
         var x = sphere.speed * timeTraveled + 0.5 * sphere.acceleration * timeTraveled ^ 2;
         sphere.speed = sphere.speed + sphere.acceleration * timeTraveled;
     } else {
-        var x = sphere.maxSpeed * timeTraveled;
+        var x = sphere.speed * timeTraveled;
     }
 
-    var targetVector = sphere.direction.clone().setLength(x);
+    var targetVector = sphere.direction.clone();
+    targetVector.setLength(x);
 
-    return targetVector
+    return targetVector;
+
 
 }
 

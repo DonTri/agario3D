@@ -39,7 +39,7 @@ function theyEat() {
                         color: '0xff0000'
                     });
                     enemies[i].radius = Math.cbrt(enemies[i].radius ^ 3 + r_plus ^ 3 - 3 * enemies[i].radius ^ 2 * r_plus - 3 * enemies[i].radius * r_plus ^ 2);
-                    j -= 1;
+                    //j -= 1;
 
                 } else if (distance < nearest_ball.min) {
                     
@@ -60,7 +60,7 @@ function theyEat() {
                     });
                     enemies[j].radius = Math.cbrt(enemies[j].radius ^ 3 + r_plus2 ^ 3 - 3 * enemies[j].radius ^ 2 * r_plus2 - 3 * enemies[j].radius * r_plus2 ^ 2);
                     hunting = false;
-                    i -= 1;
+                    //i -= 1;
 
                 } else if (distance < nearest_ball.min) {
                     nearest_ball.min = distance;

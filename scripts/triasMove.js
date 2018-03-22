@@ -1,5 +1,5 @@
 var camera, scene, renderer, mainBall, material, stats;
-var Fpower = 0.0001;
+var Fpower = 1;
 var wallsWidth;
 var enemies = [];
 
@@ -23,7 +23,7 @@ function init() {
 
     // Create scene.
     scene = new THREE.Scene();
-    
+
 
 
     // Create the grid
@@ -41,7 +41,7 @@ function init() {
     // Add listener for window resize.
     window.addEventListener('resize', onWindowResize, false);
 
-    
+
     // Create the mainBall.
     mainBall = createSphere({
         radius: 10,
@@ -51,7 +51,7 @@ function init() {
             y: 0,
             z: 0
         },
-        direction: new THREE.Vector3(0, 0, 0)
+        direction: new THREE.Vector3(0, 0, 0).normalize()
 
     });
 
@@ -67,9 +67,8 @@ function init() {
                 y: 2 * wallsWidth * Math.random() - wallsWidth,
                 z: 0
             },
-            direction: new THREE.Vector3(Math.random() - 1,  Math.random() - 1, 0).normalize()
+            direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
         }));
-
     }
 
     // Add stats to page.
@@ -108,8 +107,10 @@ function animate() {
     /*  tsika.rotation.y += 0.01; */
     //moveSphere();
     renderer.render(scene, camera);
+
+    console.log("Item 1: "+"r"+mainBall.radius+"s"+mainBall.speed+"MS "+mainBall.maxSpeed);
     // TWEEN.update();
-    theyEat();
+    //theyEat();
     moveIt();
 
     //console.log("x ball position:" + mainBall.acceleration + "........ y ball position:" + mainBall.maxSpeed + "........ z ball position:" + mainBall.position.z);

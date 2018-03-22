@@ -4,8 +4,6 @@ var wallsWidth;
 var enemies = [];
 
 
-
-
 init();
 animate();
 
@@ -18,12 +16,11 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     // Create camera.
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1500);
-    camera.position.z = 400;
+    camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 1500);
+    camera.position.z = 1200;
 
     // Create scene.
     scene = new THREE.Scene();
-
 
 
     // Create the grid
@@ -77,9 +74,6 @@ function init() {
 }
 
 
-
-
-
 function generateColor() {
     return '#' + (function co(lor) {
         return (lor +=
@@ -100,15 +94,13 @@ var canvas = renderer.domElement;
 canvas.onmousemove = calculateNewDirection;
 
 
-
-
 function animate() {
     requestAnimationFrame(animate);
     /*  tsika.rotation.y += 0.01; */
     //moveSphere();
     renderer.render(scene, camera);
 
-    console.log("Item 1: "+"r"+mainBall.radius+"s"+mainBall.speed+"MS "+mainBall.maxSpeed);
+    console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
     // TWEEN.update();
     //theyEat();
     moveIt();

@@ -7,7 +7,7 @@ var enemies = [];
 
 
 init();
-//animate();
+animate();
 
 function init() {
     // Renderer.
@@ -99,7 +99,7 @@ function onWindowResize() {
 // mouse move detection
 var canvas = renderer.domElement;
 canvas.onmousemove = calculateNewDirection;
-canvas.onmousemove = animate;
+
 
 
 

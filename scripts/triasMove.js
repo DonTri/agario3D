@@ -32,7 +32,7 @@ function init() {
 
     // Create directional light and add to scene.
     var directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(1, 1, 1).normalize();
+    directionalLight.position.set(0.5, 0.7, 1).normalize();
     scene.add(directionalLight);
 
     // Add listener for window resize.
@@ -100,7 +100,7 @@ function animate() {
     //moveSphere();
     renderer.render(scene, camera);
 
-    console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
+    // console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
     // TWEEN.update();
     //theyEat();
     moveIt();

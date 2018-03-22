@@ -105,10 +105,10 @@ function calculateDistanceToMove(sphere) {
     sphere.time = Date.now();
 
     if (sphere.speed < sphere.maxSpeed) {
-        var x = sphere.speed * timeTraveled + 0.5 * sphere.acceleration * timeTraveled ^ 2;
         sphere.speed = sphere.speed + sphere.acceleration * timeTraveled;
-    } else {
         var x = sphere.speed * timeTraveled;
+    } else {
+        var x = sphere.maxSpeed * timeTraveled;
     }
 
     var targetVector = sphere.direction.clone();

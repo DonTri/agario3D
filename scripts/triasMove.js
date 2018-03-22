@@ -1,5 +1,5 @@
 var camera, scene, renderer, mainBall, material, stats;
-var Fpower = 1;
+var Fpower = 2000;
 var wallsWidth;
 var enemies = [];
 

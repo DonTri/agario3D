@@ -16,7 +16,7 @@ function weEatOrDie() {
 
 function theyEat() {
 
-    var i = 0
+    var i = 0;
 
     while (i < enemies.length) {
         var hunting = true;
@@ -34,7 +34,8 @@ function theyEat() {
                 if (distance < enemies[i].radius) {
                     // console.log("x1...." + distance);
                     var r_plus = enemies[j].radius;
-                    enemies.splice(j, 1);
+                    // enemies.splice(j, 1);
+                    enemies[j].changeColor('0xff0000');
                     enemies[i].radius = Math.cbrt(enemies[i].radius ^ 3 + r_plus ^ 3 - 3 * enemies[i].radius ^ 2 * r_plus - 3 * enemies[i].radius * r_plus ^ 2);
                     j -= 1;
 

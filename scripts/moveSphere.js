@@ -7,15 +7,12 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
 function calculateNewDirection(e) {
 
 
     // upologizoume to x,y tou mouse alla me vasi to 0,0 na einai sto kentro ti othonis mas
     var xMouse = e.x - canvas.width / 2;
     var yMouse = canvas.height / 2 - e.y;
-
 
 
     // auti i sunartisi upologizei tin gwnia dedomenwn x kai y twn 2 shmeiwn. nomizw douleuei mono gia to panw deksia tetarthmorio
@@ -44,8 +41,8 @@ function calculateNewDirection(e) {
         var tween = new TWEEN.Tween(start).to(end, duration / 1000);
 
 
-        tween.onUpdate(function() {
-            console.log("start.x:" + start.x + "........start.y:" + start.y + "    ......start.z:" + start.z);
+        tween.onUpdate(function () {
+            // console.log("start.x:" + start.x + "........start.y:" + start.y + "    ......start.z:" + start.z);
 
             mainBall.position.x += start.x;
             mainBall.position.y += start.y;
@@ -63,15 +60,12 @@ function calculateNewDirection(e) {
         tween.start();
 
 
-
-
     }
 
 }
 
 
-
-var getAngle = function(x1, y1, x2, y2) {
+var getAngle = function (x1, y1, x2, y2) {
 
     var dx = -x1 + x2,
         dy = -y1 + y2;
@@ -82,7 +76,6 @@ var getAngle = function(x1, y1, x2, y2) {
 function toDegrees(angle) {
     return angle * (180 / Math.PI);
 }
-
 
 
 function moveIt() {
@@ -104,8 +97,6 @@ function moveIt() {
 }
 
 
-
-
 function calculateDistanceToMove(sphere) {
 
     var timeTraveled = Date.now() - sphere.time;
@@ -119,11 +110,10 @@ function calculateDistanceToMove(sphere) {
     }
 
     var targetVector = sphere.direction.clone().setLength(x);
-    
+
     return targetVector
 
 }
-
 
 
 function setdirection(sphere) {
@@ -140,5 +130,3 @@ function setdirection(sphere) {
     }
 
 }
-
-

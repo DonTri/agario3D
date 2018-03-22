@@ -54,7 +54,10 @@ function theyEat() {
                 if (distance < enemies[j].radius) {
                     // console.log("x2...." + distance);
                     var r_plus2 = enemies[i].radius;
-                    enemies.splice(i, 1);
+                    //enemies.splice(i, 1);
+                    enemies[i].changeColor({
+                        color: '0xff0000'
+                    });
                     enemies[j].radius = Math.cbrt(enemies[j].radius ^ 3 + r_plus2 ^ 3 - 3 * enemies[j].radius ^ 2 * r_plus2 - 3 * enemies[j].radius * r_plus2 ^ 2);
                     hunting = false;
                     i -= 1;

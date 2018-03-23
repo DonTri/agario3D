@@ -41,6 +41,7 @@ function createSphere(params) {
         sphere.material.color.setHex(args.color);
     }
 
+
     return {
         radius: params.radius,
         position: sphere.position,

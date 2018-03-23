@@ -48,7 +48,7 @@ function init() {
             y: 0,
             z: 0
         },
-        direction: new THREE.Vector3(0, 0, 0).normalize()
+        direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
 
     });
 
@@ -57,7 +57,7 @@ function init() {
     for (var i = 20; i >= 0; i--) {
 
         enemies.push(createSphere({
-            radius: (20 * Math.random() + 5),
+            radius: (20 * Math.random() + 0),
             color: generateColor(),
             position: {
                 x: 2 * wallsWidth * Math.random() - wallsWidth,
@@ -102,7 +102,7 @@ function animate() {
 
     // console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
     // TWEEN.update();
-    //theyEat();
+    theyEat();
     moveIt();
 
     //console.log("x ball position:" + mainBall.acceleration + "........ y ball position:" + mainBall.maxSpeed + "........ z ball position:" + mainBall.position.z);

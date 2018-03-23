@@ -87,11 +87,12 @@ function moveIt() {
 
     mainBall.position.add(x);
     camera.position.add(x);
+    weEat();
 
     for (var i = enemies.length - 1; i >= 0; i--) {
         setdirection(enemies[i]);
         x = calculateDistanceToMove(enemies[i]);
-        enemies[i].position.add(x);
+        enemies[i].position.add(x);/////////////
 
     }
 }

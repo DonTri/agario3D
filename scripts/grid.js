@@ -16,13 +16,6 @@ function createGrid() {
     gridHelper.rotation.x = Math.PI / 2;
     scene.add(gridHelper);
 
-    var texture = THREE.ImageUtils.loadTexture('img/pic.jpg');
-    var material = new THREE.MeshBasicMaterial({
-        map: texture
-    });
-    var field = new THREE.Mesh(new THREE.PlaneGeometry(180, 140, 5, 5), material);
-
-    scene.add(field);
 
     var axesy = new THREE.Mesh(
         new THREE.CylinderGeometry(0.05, 0.05, size, 4),

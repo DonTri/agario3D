@@ -14,8 +14,8 @@ function weEat() {
     for (var i = enemies.length - 1; i >= 0; i--) {
 
         distance = Math.sqrt(Math.pow((mainBall.position.x - enemies[i].position.x), 2) + Math.pow((mainBall.position.y - enemies[i].position.y), 2));
-        console.log(distance);
-        if (mainBall.radius > enemies[i].radius && mainBall.radius > distance) {
+        // console.log(distance);
+        if (mainBall.getScale() > enemies[i].getScale() && mainBall.getScale() > distance) {
 
             enemies[i].changeColor({
                 color: '0xff0000'
@@ -43,15 +43,20 @@ function theyEat() {
 
             var distance = Math.sqrt(Math.pow((enemies[i].position.x - enemies[j].position.x), 2) + Math.pow((enemies[i].position.y - enemies[j].position.y), 2));
 
-            if (enemies[i].radius > enemies[j].radius) {
-                if (distance < enemies[i].radius) {
+            if (enemies[i].getScale() > enemies[j].getScale()) {
+                if (distance < enemies[i].getScale()) {
 
-                    r_plus = enemies[j].radius;
+                    r_plus = enemies[j].getScale();
                     enemies.splice(j, 1);
                     /*enemies[j].changeColor({
                         color: '0xff0000'
                     });*/
-                    enemies[i].radius = Math.cbrt(Math.pow(enemies[i].radius, 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[i].radius, 2) * r_plus - 3 * enemies[i].radius * Math.pow(r_plus, 2));
+
+                    enemies[i].scaleMe({
+                        scale: Math.cbrt(Math.pow(enemies[i].getScale(), 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[i].getScale(), 2) * r_plus - 3 * enemies[i].getScale() * Math.pow(r_plus, 2))
+                    });
+
+
                     j -= 1;
 
                 } else if (distance < nearest_ball.min) {
@@ -62,16 +67,18 @@ function theyEat() {
 
                 }
 
-            } else if (enemies[i].radius < enemies[j].radius) {
+            } else if (enemies[i].getScale() < enemies[j].getScale()) {
 
-                if (distance < enemies[j].radius) {
+                if (distance < enemies[j].getScale()) {
 
-                    r_plus = enemies[i].radius;
+                    r_plus = enemies[i].getScale();
                     enemies.splice(i, 1);
                     /*enemies[i].changeColor({
                         color: '0xff0000'
                     });*/
-                    enemies[j].radius = Math.cbrt(Math.pow(enemies[j].radius, 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[j].radius, 2) * r_plus - 3 * enemies[j].radius * Math.pow(r_plus, 2));
+                    enemies[j].scaleMe({
+                        scale: Math.cbrt(Math.pow(enemies[j].getScale(), 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[j].getScale(), 2) * r_plus - 3 * enemies[j].getScale() * Math.pow(r_plus, 2))
+                    });
                     hunting = false;
                     i -= 1;
 

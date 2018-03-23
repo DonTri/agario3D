@@ -92,7 +92,7 @@ function moveIt() {
     for (var i = enemies.length - 1; i >= 0; i--) {
         setdirection(enemies[i]);
         x = calculateDistanceToMove(enemies[i]);
-        enemies[i].position.add(x);/////////////
+        enemies[i].position.add(x); /////////////
 
     }
 }
@@ -100,7 +100,7 @@ function moveIt() {
 
 function calculateDistanceToMove(sphere) {
 
-    var timeTraveled = (Date.now() - sphere.time)/1000;
+    var timeTraveled = (Date.now() - sphere.time) / 1000;
 
 
     sphere.time = Date.now();
@@ -123,12 +123,12 @@ function calculateDistanceToMove(sphere) {
 
 function setdirection(sphere) {
 
-    if (sphere.position.x + sphere.radius >= wallsWidth || sphere.position.x - sphere.radius <= -wallsWidth) {
+    if (sphere.position.x + sphere.getScale() >= wallsWidth || sphere.position.x - sphere.getScale() <= -wallsWidth) {
 
         sphere.direction.setX(-1 * sphere.direction.getComponent(0));
 
     }
-    if (sphere.position.y + sphere.radius >= wallsWidth || sphere.position.y - sphere.radius <= -wallsWidth) {
+    if (sphere.position.y + sphere.getScale() >= wallsWidth || sphere.position.y - sphere.getScale() <= -wallsWidth) {
 
         sphere.direction.setY(-1 * sphere.direction.getComponent(1));
 

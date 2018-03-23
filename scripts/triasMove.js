@@ -41,13 +41,13 @@ function init() {
 
     // Create the mainBall.
     mainBall = createSphere({
-        radius: 10,
         color: '#FF0040',
         position: {
             x: 0,
             y: 0,
             z: 0
         },
+        scale: 10, // now I use this instead of radius
         direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
 
     });
@@ -57,7 +57,8 @@ function init() {
     for (var i = 20; i >= 0; i--) {
 
         enemies.push(createSphere({
-            radius: (20 * Math.random() + 0),
+            // radius: (20 * Math.random() + 0),
+            scale: (20 * Math.random() + 0), // here too
             color: generateColor(),
             position: {
                 x: 2 * wallsWidth * Math.random() - wallsWidth,

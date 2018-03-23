@@ -7,24 +7,32 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+// everybody sees the globalGeometry. It has radius 1 so if you scale it with number N it will have radius = 1*N
+var globalGeometry = new THREE.SphereGeometry(1, 16, 16);
 
 function createSphere(params) {
 
     // creating sphere
-    var geometry = new THREE.SphereGeometry(params.radius, 32, 32);
+
     var material = new THREE.MeshPhongMaterial({
         color: params.color
     });
-    var sphere = new THREE.Mesh(geometry, material);
+    var sphere = new THREE.Mesh(globalGeometry, material);
+
+    // after I create the ball, I call scaleMe to scale it using params.scale 
+    scaleMe({
+        scale: params.scale
+    })
+
     scene.add(sphere);
 
     move(params.position);
 
     //calculate the accelaration of each sphere
-    var acceleration = Fpower / ((4 / 3) * Math.PI * params.radius ^ 3);
+    var acceleration = Fpower / ((4 / 3) * Math.PI * params.scale ^ 3);
 
     //calculate max speed of the sphere
-    var maxSpeed = 1000/(params.radius*2);
+    var maxSpeed = 1000 / (params.scale * 2);
 
     //calculate max speed of the sphere
     var speed = 0;
@@ -41,16 +49,25 @@ function createSphere(params) {
         sphere.material.color.setHex(args.color);
     }
 
+    function scaleMe(args) {
+        params.scale = args.scale; // we store it for future use
+        sphere.scale.set(args.scale, args.scale, args.scale); // we scale the mesh
+    }
+
+    function getScale() {
+        return params.scale; // params object will always have the updated value of scale
+    }
 
     return {
-        radius: params.radius,
+        getScale: getScale, // we should use a function instead of the property directly
         position: sphere.position,
         speed: speed,
         acceleration: acceleration,
         maxSpeed: maxSpeed,
         direction: params.direction,
         time: time,
-        changeColor: changeColor
+        changeColor: changeColor,
+        scaleMe: scaleMe
     };
 
 

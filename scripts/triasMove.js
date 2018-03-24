@@ -2,7 +2,10 @@ var camera, scene, renderer, mainBall, material, stats;
 var Fpower = 2000;
 var wallsWidth;
 var enemies = [];
-
+var controls;
+var directionalLight;
+var lightPos;
+var lightPosInit;
 
 init();
 animate();
@@ -12,8 +15,10 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     //renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
     // Add renderer to page
     document.body.appendChild(renderer.domElement);
+
 
     // Create camera.
     camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 1500);
@@ -21,6 +26,8 @@ function init() {
 
     // Create scene.
     scene = new THREE.Scene();
+
+    // controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 
     // Create the grid
@@ -30,9 +37,29 @@ function init() {
     var light = new THREE.AmbientLight(0x404040); // soft white light
     scene.add(light);
 
+    lightPos = new THREE.Vector3(30, 10, 150);
+    lightPosInit = new THREE.Vector3(30, 10, 150);
     // Create directional light and add to scene.
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
-    directionalLight.position.set(0.5, 0.7, 1).normalize();
+    directionalLight = new THREE.DirectionalLight(0xffffbe);
+    directionalLight.position.set(lightPos.x, lightPos.y, lightPos.z);
+    directionalLight.castShadow = true;
+
+
+    directionalLight.shadow.mapSize.width = 1024; // default
+    directionalLight.shadow.mapSize.height = 1024; // default
+    directionalLight.shadow.camera.near = 1; // default
+    directionalLight.shadow.camera.far = 400; // default
+
+    directionalLight.shadow.camera.left = -600;
+    directionalLight.shadow.camera.right = 600;
+    directionalLight.shadow.camera.top = 600;
+    directionalLight.shadow.camera.bottom = -600;
+
+    directionalLight.target.position.set(lightPos.x, lightPos.y, 0)
+
+    // var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    // scene.add(helper);
+
     scene.add(directionalLight);
 
     // Add listener for window resize.
@@ -105,6 +132,14 @@ function animate() {
     // TWEEN.update();
     //theyEat();
     moveIt();
+
+    lightPos.x = lightPosInit.x + camera.position.x;
+    lightPos.y = lightPosInit.y + camera.position.y;
+
+    // directionalLight.target.position.set(lightPos.x, lightPos.y, 0)
+    // directionalLight.position.set(lightPos.x, lightPos.y, 100)
+    // directionalLight.updateMatrixWorld();
+    // directionalLight.target.updateMatrixWorld();
 
     //console.log("x ball position:" + mainBall.acceleration + "........ y ball position:" + mainBall.maxSpeed + "........ z ball position:" + mainBall.position.z);
     // stats.update();

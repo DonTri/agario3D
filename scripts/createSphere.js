@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 // everybody sees the globalGeometry. It has radius 1 so if you scale it with number N it will have radius = 1*N
-var globalGeometry = new THREE.SphereGeometry(1, 16, 16);
+var globalGeometry = new THREE.SphereGeometry(1, 32, 32);
 
 function createSphere(params) {
 
@@ -18,6 +18,8 @@ function createSphere(params) {
         color: params.color
     });
     var sphere = new THREE.Mesh(globalGeometry, material);
+
+    sphere.castShadow = true;
 
     // after I create the ball, I call scaleMe to scale it using params.scale 
     scaleMe({
@@ -58,6 +60,10 @@ function createSphere(params) {
         return params.scale; // params object will always have the updated value of scale
     }
 
+    function removeMe() {
+        scene.remove(sphere);
+    }
+
     return {
         getScale: getScale, // we should use a function instead of the property directly
         position: sphere.position,
@@ -67,7 +73,8 @@ function createSphere(params) {
         direction: params.direction,
         time: time,
         changeColor: changeColor,
-        scaleMe: scaleMe
+        scaleMe: scaleMe,
+        removeMe: removeMe
     };
 
 

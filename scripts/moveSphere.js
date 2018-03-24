@@ -41,7 +41,7 @@ function calculateNewDirection(e) {
         var tween = new TWEEN.Tween(start).to(end, duration / 1000);
 
 
-        tween.onUpdate(function() {
+        tween.onUpdate(function () {
             // console.log("start.x:" + start.x + "........start.y:" + start.y + "    ......start.z:" + start.z);
 
             mainBall.position.x += start.x;
@@ -65,7 +65,7 @@ function calculateNewDirection(e) {
 }
 
 
-var getAngle = function(x1, y1, x2, y2) {
+var getAngle = function (x1, y1, x2, y2) {
 
     var dx = -x1 + x2,
         dy = -y1 + y2;
@@ -92,15 +92,28 @@ function moveIt() {
 
     while (i < enemies.length) {
 
-        setDirection(enemies[i], i);
+        setDirection(enemies[i], i); // createNewCleanArray chekare
         x = calculateDistanceToMove(enemies[i]);
         checkBoarders(enemies[i]);
-        enemies[i].position.add(x); /////////////
+        enemies[i].position.add(x);
         i += 1;
     }
 
 }
 
+// this functions takes an array with objects and undefined and gives back a clean array with same objects and no undefined
+function createNewCleanArray(oldArray) {
+
+    var newArray = [];
+
+    for (var i = 0; i < oldArray.length; i++) {
+        if (oldArray[i] !== undefined) {
+            newArray.push(oldArray[i]);
+        }
+    }
+
+    return newArray;
+}
 
 function calculateDistanceToMove(sphere) {
 
@@ -153,17 +166,14 @@ function setDirection(sphere, j) {
             attack();
             if (nearest_ball.min < sphere.getScale()) {
                 eat();
-               // return -1;
-            } 
+                // return -1;
+            }
         } else {
             abort();
             //return 0;
         }
 
     }
-
-
-
 
 
     function attack() {
@@ -180,16 +190,17 @@ function setDirection(sphere, j) {
 
         sphere.direction.normalize();
 
-        sphere.speed = sphere.speed /2;
+        sphere.speed = sphere.speed / 2;
 
     }
-
 
 
     function eat() {
         var r_plus
         r_plus = enemies[nearest_ball.enemy_index].getScale();
+
         enemies.splice(nearest_ball.enemy_index, 1);
+
         /*enemies[nearest_ball.enemy_index].changeColor({
             color: '0xff0000'
         });*/
@@ -202,8 +213,6 @@ function setDirection(sphere, j) {
     }
 
 }
-
-
 
 
 function checkBoarders(sphere) {
@@ -230,7 +239,6 @@ function checkBoarders(sphere) {
     }
 
 }
-
 
 
 /*function setdirection(sphere) {

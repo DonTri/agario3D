@@ -103,7 +103,7 @@ function animate() {
 
     // console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
     // TWEEN.update();
-    theyEat();
+    //theyEat();
     moveIt();
 
     //console.log("x ball position:" + mainBall.acceleration + "........ y ball position:" + mainBall.maxSpeed + "........ z ball position:" + mainBall.position.z);

@@ -12,6 +12,11 @@ var globalGeometry = new THREE.SphereGeometry(1, 32, 32);
 
 function createSphere(params) {
 
+    var maxSpeed, accelaration, time;
+    var speed = 0;
+
+    var time = Date.now();
+
     // creating sphere
 
     var material = new THREE.MeshPhongMaterial({
@@ -28,26 +33,26 @@ function createSphere(params) {
 
     setMaxSpeed(getScale());
 
+    setAcceleration(getScale());
+
     scene.add(sphere);
 
     move(params.position);
 
-    //calculate the accelaration of each sphere
-    var acceleration = Fpower / ((4 / 3) * Math.PI * params.scale ^ 3);
-
-    //calculate max speed of the sphere
-    var maxSpeed;
-
-    //calculate max speed of the sphere
-    var speed = 0;
-
-    var time = Date.now();
-
+    setTime();
 
 
 
     function move(args) {
         sphere.position.set(args.x, args.y, args.z);
+    }
+
+    function getPosition() {
+        return params.position;
+    }
+
+    function setPosition() {
+
     }
 
     function changeColor(args) {
@@ -68,6 +73,24 @@ function createSphere(params) {
         scene.remove(sphere);
     }
 
+
+    function setAcceleration(args) {
+        acceleration = Fpower / ((4 / 3) * Math.PI * args ^ 3);
+    }
+
+    function getAcceleration() {
+        return acceleration;
+    }
+
+    function setSpeed(args) {
+
+        speed = speed + getAcceleration() * args;
+    }
+
+    function getSpeed() {
+        return speed;
+    }
+
     function setMaxSpeed(args) {
         maxSpeed = 2000 / args;
     }
@@ -76,17 +99,24 @@ function createSphere(params) {
         return maxSpeed;
     }
 
-    function getAcceleration(){
-        return acceleration;
+    function setTime() {
+        time = Date.now();
+    }
+
+    function getTime() {
+        return time;
     }
 
     return {
         getScale: getScale, // we should use a function instead of the property directly
+        getPosition: getPosition,
         position: sphere.position,
-        speed: speed,
+        setSpeed: setSpeed,
+        getSpeed: getSpeed,
+        setTime: setTime,
+        getTime: getTime,
         getAcceleration: getAcceleration,
         direction: params.direction,
-        time: time,
         changeColor: changeColor,
         scaleMe: scaleMe,
         removeMe: removeMe,

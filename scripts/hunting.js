@@ -9,7 +9,7 @@
 
 
 function weEat() {
-    var distance;
+    var distance, r_plus;;
 
     for (var i = enemies.length - 1; i >= 0; i--) {
 
@@ -17,7 +17,6 @@ function weEat() {
         // console.log(distance);
         if (mainBall.getScale() > enemies[i].getScale() && mainBall.getScale() > distance) {
 
-            var r_plus;
             r_plus = enemies[i].getScale();
 
             enemies[i].removeMe();

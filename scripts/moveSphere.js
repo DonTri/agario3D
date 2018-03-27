@@ -79,15 +79,15 @@ function toDegrees(angle) {
 
 
 function moveIt() {
-    var i = 0;
-    var shift_back = 0;
+    var i = 0,
+        x;
 
     if (mainBall.direction.length() == 0) return;
 
-    var x = calculateDistanceToMove(mainBall);
+    x = calculateDistanceToMove(mainBall);
 
-    mainBall.position.add(x);
-    camera.position.add(x);
+    checkBoarders(mainBall, x);
+    camera.position.set(mainBall.position.x, mainBall.position.y, camera.position.z);
     weEat(); // go hunting. Function in hunting.js
 
     while (i < enemies.length) {
@@ -122,20 +122,19 @@ function createNewCleanArray(oldArray) {
 
 /* We calculate the distance that the object traveled, based on the principle of accelerated motion smoothness */
 function calculateDistanceToMove(sphere) {
+    var x, targetVector, timeTraveled;
 
-    var timeTraveled = (Date.now() - sphere.time) / 1000;
+    timeTraveled = (Date.now() - sphere.getTime()) / 1000;
+    sphere.setTime();
 
-
-    sphere.time = Date.now();
-
-    if (sphere.speed < sphere.getMaxSpeed()) {
-        sphere.speed = sphere.speed + sphere.getAcceleration() * timeTraveled;
-        var x = sphere.speed * timeTraveled;
+    if (sphere.getSpeed() < sphere.getMaxSpeed()) {
+        sphere.setSpeed(timeTraveled);
+        x = sphere.getSpeed() * timeTraveled;
     } else {
-        var x = sphere.getMaxSpeed() * timeTraveled;
+        x = sphere.getMaxSpeed() * timeTraveled;
     }
 
-    var targetVector = sphere.direction.clone();
+    targetVector = sphere.direction.clone();
     targetVector.setLength(x);
 
     return targetVector;
@@ -175,6 +174,31 @@ function checkBoardersAndMove(sphere, vectorMove) {
         sphere.direction.setY(Math.abs(sphere.direction.getComponent(1)));
 
     }
+}
 
+/*Check the boarders for the mainBALL. I create a new function to avoid if statements in 
+the same function for enemies. Because in mainBall we don't need to change direction*/
+function checkBoarders(sphere, vectorMove) {
 
+    if ((sphere.position.x + sphere.getScale() + vectorMove.x + 0.01 <= wallsWidth) && (sphere.position.x - sphere.getScale() + vectorMove.x - 0.01 >= -wallsWidth)) {
+        sphere.position.setX(sphere.position.x + vectorMove.x);
+
+    } else if (sphere.position.x + sphere.getScale() + vectorMove.x > wallsWidth) {
+        sphere.position.setX(wallsWidth - sphere.getScale());
+
+    } else if (sphere.position.x - sphere.getScale() + vectorMove.x < -wallsWidth) {
+        sphere.position.setX(-wallsWidth + sphere.getScale());
+
+    }
+
+    if ((sphere.position.y + sphere.getScale() + vectorMove.y <= wallsWidth) && (sphere.position.y - sphere.getScale() + vectorMove.y >= -wallsWidth)) {
+        sphere.position.setY(sphere.position.y + vectorMove.y);
+
+    } else if (sphere.position.y + sphere.getScale() + vectorMove.y > wallsWidth) {
+        sphere.position.setY(wallsWidth - sphere.getScale());
+
+    } else if (sphere.position.y - sphere.getScale() + vectorMove.y < -wallsWidth) {
+        sphere.position.setY(-wallsWidth + sphere.getScale());
+
+    }
 }

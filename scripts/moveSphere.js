@@ -129,7 +129,7 @@ function calculateDistanceToMove(sphere) {
     sphere.time = Date.now();
 
     if (sphere.speed < sphere.getMaxSpeed()) {
-        sphere.speed = sphere.speed + sphere.acceleration * timeTraveled;
+        sphere.speed = sphere.speed + sphere.getAcceleration() * timeTraveled;
         var x = sphere.speed * timeTraveled;
     } else {
         var x = sphere.getMaxSpeed() * timeTraveled;

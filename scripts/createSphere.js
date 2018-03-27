@@ -76,11 +76,15 @@ function createSphere(params) {
         return maxSpeed;
     }
 
+    function getAcceleration(){
+        return acceleration;
+    }
+
     return {
         getScale: getScale, // we should use a function instead of the property directly
         position: sphere.position,
         speed: speed,
-        acceleration: acceleration,
+        getAcceleration: getAcceleration,
         direction: params.direction,
         time: time,
         changeColor: changeColor,

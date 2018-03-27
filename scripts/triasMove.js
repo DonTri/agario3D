@@ -21,8 +21,8 @@ function init() {
 
 
     // Create camera.
-    camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 1500);
-    camera.position.z = 1200;
+    camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 4100);
+    camera.position.z = 4000;
 
     // Create scene.
     scene = new THREE.Scene();
@@ -74,18 +74,18 @@ function init() {
             y: 0,
             z: 0
         },
-        scale: 10, // now I use this instead of radius
+        scale: 20, // now I use this instead of radius
         direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
 
     });
 
 
     // Create the enemie balls
-    for (var i = 20; i >= 0; i--) {
+    for (var i = 50; i >= 0; i--) {
 
         enemies.push(createSphere({
             // radius: (20 * Math.random() + 0),
-            scale: (20 * Math.random() + 0), // here too
+            scale: (20 * Math.random() + 10), // here too
             color: generateColor(),
             position: {
                 x: 2 * wallsWidth * Math.random() - wallsWidth,

@@ -17,96 +17,93 @@ function weEat() {
         // console.log(distance);
         if (mainBall.getScale() > enemies[i].getScale() && mainBall.getScale() > distance) {
 
-            enemies[i].changeColor({
-                color: '0xff0000'
+            var r_plus;
+            r_plus = enemies[i].getScale();
+
+            enemies[i].removeMe();
+
+            enemies.splice(i, 1);
+            scene.remove(enemies[i]);
+            //enemies[nearest_ball.enemy_index] = undefined;
+
+            mainBall.scaleMe({
+                scale: Math.cbrt(Math.pow(mainBall.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(mainBall.getScale(), 2) * r_plus + 3 * mainBall.getScale() * Math.pow(r_plus, 2))
             });
+
+            mainBall.setMaxSpeed(mainBall.getScale());
 
 
         }
     }
 }
 
+// Function that check distances and send spheres to attack and eat
+function hunting(sphere, j) {
+    var distance;
+    var nearest_ball = { //We use this object to save the closest enemy to the sphere that we check
+        min: 200,
+        enemy_index: -1
+    };
 
-function theyEat() {
-    var r_plus;
-    var i = 0;
-
-    while (i < enemies.length) {
-        var hunting = true;
-        var j = i + 1;
-        var nearest_ball = {
-            min: 5,
-            hunter: -1,
-            victim: -1
-        };
-        while (j < enemies.length && hunting == true) {
-
-            var distance = Math.sqrt(Math.pow((enemies[i].position.x - enemies[j].position.x), 2) + Math.pow((enemies[i].position.y - enemies[j].position.y), 2));
-
-            if (enemies[i].getScale() > enemies[j].getScale()) {
-                if (distance < enemies[i].getScale()) {
-
-                    r_plus = enemies[j].getScale();
-                    enemies.splice(j, 1);
-                    /*enemies[j].changeColor({
-                        color: '0xff0000'
-                    });*/
-
-                    enemies[i].scaleMe({
-                        scale: Math.cbrt(Math.pow(enemies[i].getScale(), 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[i].getScale(), 2) * r_plus - 3 * enemies[i].getScale() * Math.pow(r_plus, 2))
-                    });
-
-
-                    j -= 1;
-
-                } else if (distance < nearest_ball.min) {
-
-                    nearest_ball.min = distance;
-                    nearest_ball.hunter = i;
-                    nearest_ball.victim = j;
-
-                }
-
-            } else if (enemies[i].getScale() < enemies[j].getScale()) {
-
-                if (distance < enemies[j].getScale()) {
-
-                    r_plus = enemies[i].getScale();
-                    enemies.splice(i, 1);
-                    /*enemies[i].changeColor({
-                        color: '0xff0000'
-                    });*/
-                    enemies[j].scaleMe({
-                        scale: Math.cbrt(Math.pow(enemies[j].getScale(), 3) + Math.pow(r_plus, 3) - 3 * Math.pow(enemies[j].getScale(), 2) * r_plus - 3 * enemies[j].getScale() * Math.pow(r_plus, 2))
-                    });
-                    hunting = false;
-                    i -= 1;
-
-                } else if (distance < nearest_ball.min) {
-                    nearest_ball.min = distance;
-                    nearest_ball.hunter = j;
-                    nearest_ball.victim = i;
-
-                }
-
+    for (var i = enemies.length - 1; i >= 0; i--) { //finds the closest enemy
+        if (i != j) {
+            distance = Math.sqrt(Math.pow((sphere.position.x - enemies[i].position.x), 2) + Math.pow((sphere.position.y - enemies[i].position.y), 2));
+            if (distance < nearest_ball.min) {
+                nearest_ball.min = distance;
+                nearest_ball.enemy_index = i;
             }
-            j += 1;
+        }
+    }
+
+    // checks if the closest enemy is bigger or smaller and choose to attack or try to escape
+    if (nearest_ball.enemy_index != -1) {
+        if (sphere.getScale() > enemies[nearest_ball.enemy_index].getScale()) {
+            attack();
+            if (nearest_ball.min < sphere.getScale()) {
+                eat();
+            }
+        } else {
+            abort();
 
         }
 
-        if (nearest_ball.hunter > -1) {
-            enemies[nearest_ball.hunter].direction.setX(enemies[nearest_ball.victim].position.x);
-            enemies[nearest_ball.hunter].direction.setY(enemies[nearest_ball.victim].position.y);
-            enemies[nearest_ball.hunter].direction.setZ(enemies[nearest_ball.victim].position.z);
-            enemies[nearest_ball.hunter].direction.normalize();
+    }
 
-            enemies[nearest_ball.victim].direction.setX(enemies[nearest_ball.hunter].position.x)
-            enemies[nearest_ball.victim].direction.setY(enemies[nearest_ball.hunter].position.y)
-            enemies[nearest_ball.victim].direction.setZ(enemies[nearest_ball.hunter].position.z)
-            enemies[nearest_ball.victim].direction.normalize().multiplyScalar(-1);
-        }
 
-        i += 1;
+    function attack() {
+        sphere.direction.setX(enemies[nearest_ball.enemy_index].position.x - sphere.position.x);
+        sphere.direction.setY(enemies[nearest_ball.enemy_index].position.y - sphere.position.y);
+
+        sphere.direction.normalize();
+
+    }
+
+    function abort() {
+        sphere.direction.setX(sphere.position.x - enemies[nearest_ball.enemy_index].position.x);
+        sphere.direction.setY(sphere.position.y - enemies[nearest_ball.enemy_index].position.y);
+
+        sphere.direction.normalize();
+
+    }
+
+    // Function that remove the victim from the scene and increase the scale of the attacker
+    function eat() {
+        var r_plus;
+        r_plus = enemies[nearest_ball.enemy_index].getScale();
+
+        enemies[nearest_ball.enemy_index].removeMe();
+
+        enemies.splice(nearest_ball.enemy_index, 1);
+        scene.remove(enemies[nearest_ball.enemy_index]);
+        //enemies[nearest_ball.enemy_index] = undefined;
+
+        sphere.scaleMe({
+            scale: Math.cbrt(Math.pow(sphere.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(sphere.getScale(), 2) * r_plus + 3 * sphere.getScale() * Math.pow(r_plus, 2))
+        });
+
+        sphere.setMaxSpeed(sphere.getScale());
+
+
     }
 
 }

@@ -9,7 +9,7 @@
 
 function createGrid() {
 
-    var size = 500;
+    var size = 1000;
     var divisions = 50;
 
     var gridHelper = new THREE.GridHelper(size, divisions, '#0F512C', '#0F512C');
@@ -18,7 +18,7 @@ function createGrid() {
     scene.add(gridHelper);
 
 
-    var field = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000, 5, 5), new THREE.MeshLambertMaterial({
+    var field = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000, 5, 5), new THREE.MeshLambertMaterial({
         color: 0xD8D8D8
     }));
 

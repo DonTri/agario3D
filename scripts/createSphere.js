@@ -24,7 +24,9 @@ function createSphere(params) {
     // after I create the ball, I call scaleMe to scale it using params.scale 
     scaleMe({
         scale: params.scale
-    })
+    });
+
+    setMaxSpeed(getScale());
 
     scene.add(sphere);
 
@@ -34,12 +36,14 @@ function createSphere(params) {
     var acceleration = Fpower / ((4 / 3) * Math.PI * params.scale ^ 3);
 
     //calculate max speed of the sphere
-    var maxSpeed = 1000 / (params.scale * 2);
+    var maxSpeed;
 
     //calculate max speed of the sphere
     var speed = 0;
 
     var time = Date.now();
+
+
 
 
     function move(args) {
@@ -64,17 +68,26 @@ function createSphere(params) {
         scene.remove(sphere);
     }
 
+    function setMaxSpeed(args) {
+        maxSpeed = 2000 / args;
+    }
+
+    function getMaxSpeed() {
+        return maxSpeed;
+    }
+
     return {
         getScale: getScale, // we should use a function instead of the property directly
         position: sphere.position,
         speed: speed,
         acceleration: acceleration,
-        maxSpeed: maxSpeed,
         direction: params.direction,
         time: time,
         changeColor: changeColor,
         scaleMe: scaleMe,
-        removeMe: removeMe
+        removeMe: removeMe,
+        setMaxSpeed: setMaxSpeed,
+        getMaxSpeed: getMaxSpeed
     };
 
 

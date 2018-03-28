@@ -47,6 +47,8 @@ function createSphere(params) {
         sphere.position.set(args.x, args.y, args.z);
     }
 
+
+
     function getPosition() {
         return params.position;
     }
@@ -92,7 +94,7 @@ function createSphere(params) {
     }
 
     function setMaxSpeed(args) {
-        maxSpeed = 2000 / args;
+        maxSpeed = (2000 / args) + 75;
     }
 
     function getMaxSpeed() {

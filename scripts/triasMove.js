@@ -1,5 +1,5 @@
 var camera, scene, renderer, mainBall, material, stats;
-var Fpower = 2000;
+var Fpower = 4000;
 var wallsWidth;
 var enemies = [];
 var controls;
@@ -22,7 +22,7 @@ function init() {
 
     // Create camera.
     camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 4100);
-    camera.position.z = 4000;
+    camera.position.z = 2500;
 
     // Create scene.
     scene = new THREE.Scene();
@@ -129,7 +129,7 @@ function animate() {
     renderer.render(scene, camera);
 
     // console.log("Item 1: " + "r" + mainBall.radius + "s" + mainBall.speed + "MS " + mainBall.maxSpeed);
-    // TWEEN.update();
+    TWEEN.update();
     //theyEat();
     moveIt();
 

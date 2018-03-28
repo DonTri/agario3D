@@ -95,10 +95,7 @@ function moveIt() {
             hunting(enemies[i], i); // go hunting. Function in hunting.js
             x = calculateDistanceToMove(enemies[i]);
             checkBoardersAndMove(enemies[i], x);
-
-        } else {
-            enemies.splice(i, 1);
-        }
+        } 
         i += 1;
     }
     enemies = createNewCleanArray(enemies); // createNewCleanArray chekare

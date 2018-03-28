@@ -20,12 +20,15 @@ function weEat() {
             r_plus = enemies[i].getScale();
 
             enemies[i].removeMe();
-
             enemies.splice(i, 1);
-            scene.remove(enemies[i]);
             //enemies[nearest_ball.enemy_index] = undefined;
 
-            mainBall.scaleMe({
+            /*mainBall.scaleMe({
+                scale: Math.cbrt(Math.pow(mainBall.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(mainBall.getScale(), 2) * r_plus + 3 * mainBall.getScale() * Math.pow(r_plus, 2))
+            });*/
+
+            tweenForEating({
+                sphere: mainBall,
                 scale: Math.cbrt(Math.pow(mainBall.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(mainBall.getScale(), 2) * r_plus + 3 * mainBall.getScale() * Math.pow(r_plus, 2))
             });
 
@@ -40,7 +43,7 @@ function weEat() {
 function hunting(sphere, j) {
     var distance;
     var nearest_ball = { //We use this object to save the closest enemy to the sphere that we check
-        min: 200,
+        min: 150 + sphere.getScale(),
         enemy_index: -1
     };
 
@@ -91,14 +94,18 @@ function hunting(sphere, j) {
         r_plus = enemies[nearest_ball.enemy_index].getScale();
 
         enemies[nearest_ball.enemy_index].removeMe();
-
         enemies.splice(nearest_ball.enemy_index, 1);
-        scene.remove(enemies[nearest_ball.enemy_index]);
+        //scene.remove(enemies[nearest_ball.enemy_index]);
         //enemies[nearest_ball.enemy_index] = undefined;
 
         sphere.scaleMe({
             scale: Math.cbrt(Math.pow(sphere.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(sphere.getScale(), 2) * r_plus + 3 * sphere.getScale() * Math.pow(r_plus, 2))
         });
+
+        /*tweenForEating({
+            sphere: sphere,
+            scale: Math.cbrt(Math.pow(sphere.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(sphere.getScale(), 2) * r_plus + 3 * sphere.getScale() * Math.pow(r_plus, 2))
+        });*/
 
         sphere.setMaxSpeed(sphere.getScale());
 

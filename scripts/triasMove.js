@@ -37,8 +37,8 @@ function init() {
     var light = new THREE.AmbientLight(0x404040); // soft white light
     scene.add(light);
 
-    lightPos = new THREE.Vector3(30, 10, 150);
-    lightPosInit = new THREE.Vector3(30, 10, 150);
+    lightPos = new THREE.Vector3(30, 10, 280);
+    lightPosInit = new THREE.Vector3(30, 10, 280);
     // Create directional light and add to scene.
     directionalLight = new THREE.DirectionalLight(0xffffbe);
     directionalLight.position.set(lightPos.x, lightPos.y, lightPos.z);
@@ -48,17 +48,17 @@ function init() {
     directionalLight.shadow.mapSize.width = 1024; // default
     directionalLight.shadow.mapSize.height = 1024; // default
     directionalLight.shadow.camera.near = 1; // default
-    directionalLight.shadow.camera.far = 400; // default
+    directionalLight.shadow.camera.far = 600; // default
 
-    directionalLight.shadow.camera.left = -600;
-    directionalLight.shadow.camera.right = 600;
-    directionalLight.shadow.camera.top = 600;
-    directionalLight.shadow.camera.bottom = -600;
+    directionalLight.shadow.camera.left = -1000;
+    directionalLight.shadow.camera.right = 1000;
+    directionalLight.shadow.camera.top = 1000;
+    directionalLight.shadow.camera.bottom = -1000;
 
     directionalLight.target.position.set(lightPos.x, lightPos.y, 0)
 
-    // var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
-    // scene.add(helper);
+    var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    scene.add(helper);
 
     scene.add(directionalLight);
 

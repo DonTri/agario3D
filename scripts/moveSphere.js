@@ -26,42 +26,7 @@ function calculateNewDirection(e) {
     var vector = new THREE.Vector3(1, 0, 0);
     var axis = new THREE.Vector3(0, 0, 1);
     vector.applyAxisAngle(axis, angle);
-
-    mainBall.direction = vector;
-
-    //tweenarisma();
-
-
-    function tweenarisma() {
-        var start = mainBall.direction.clone();
-        var end = new THREE.Vector3(0, 0, 0);
-
-        var duration = 2 * mainBall.speed / mainBall.acceleration;
-
-        var tween = new TWEEN.Tween(start).to(end, duration / 1000);
-
-
-        tween.onUpdate(function() {
-            // console.log("start.x:" + start.x + "........start.y:" + start.y + "    ......start.z:" + start.z);
-
-            mainBall.position.x += start.x;
-            mainBall.position.y += start.y;
-            mainBall.position.z += start.z;
-
-            camera.position.x += start.x;
-            camera.position.y += start.y;
-            camera.position.z += start.z;
-
-
-        });
-
-        tween.easing(TWEEN.Easing.Quartic.In);
-
-        tween.start();
-
-
-    }
-
+    mainBall.setDirection(vector);
 }
 
 
@@ -80,14 +45,16 @@ function toDegrees(angle) {
 
 function moveIt() {
     var i = 0,
+        camera_temp,
         x;
 
-    if (mainBall.direction.length() == 0) return;
+    if (mainBall.getDirection().length() == 0) return;
 
     x = calculateDistanceToMove(mainBall);
 
     checkBoarders(mainBall, x);
-    camera.position.set(mainBall.position.x, mainBall.position.y, camera.position.z);
+    camera_temp = mainBall.getPosition();
+    camera.position.set(camera_temp.x, camera_temp.y, camera_position_z);
     weEat(); // go hunting. Function in hunting.js
 
     while (i < enemies.length) {
@@ -95,14 +62,15 @@ function moveIt() {
             hunting(enemies[i], i); // go hunting. Function in hunting.js
             x = calculateDistanceToMove(enemies[i]);
             checkBoardersAndMove(enemies[i], x);
-        } 
+        }
         i += 1;
     }
     enemies = createNewCleanArray(enemies); // createNewCleanArray chekare
 
 }
 
-// this functions takes an array with objects and undefined and gives back a clean array with same objects and no undefined
+/* this function takes an array with objects and undefined and gives back a clean array with same objects and no undefined */
+
 function createNewCleanArray(oldArray) {
 
     var newArray = [];
@@ -118,6 +86,7 @@ function createNewCleanArray(oldArray) {
 
 
 /* We calculate the distance that the object traveled, based on the principle of accelerated motion smoothness */
+
 function calculateDistanceToMove(sphere) {
     var x, targetVector, timeTraveled;
 
@@ -131,7 +100,7 @@ function calculateDistanceToMove(sphere) {
         x = sphere.getMaxSpeed() * timeTraveled;
     }
 
-    targetVector = sphere.direction.clone();
+    targetVector = sphere.getDirection();
     targetVector.setLength(x);
 
     return targetVector;
@@ -139,63 +108,107 @@ function calculateDistanceToMove(sphere) {
 
 }
 
+
+
 /*Check before move. We check the future position of the object (before adding the new vector),
  so we can be sure that the object will stay in the battlefield*/
+
 function checkBoardersAndMove(sphere, vectorMove) {
 
-    if ((sphere.position.x + sphere.getScale() + vectorMove.x + 0.01 <= wallsWidth) && (sphere.position.x - sphere.getScale() + vectorMove.x - 0.01 >= -wallsWidth)) {
+    var pos = sphere.getPosition(),
+        dir = sphere.getDirection();
 
-        sphere.position.setX(sphere.position.x + vectorMove.x);
+    if ((pos.x + sphere.getScale() + vectorMove.x + 0.01 <= wallsWidth) && (pos.x - sphere.getScale() + vectorMove.x - 0.01 >= -wallsWidth)) {
+        sphere.setPosition({
+            x: pos.x + vectorMove.x
+        });
 
-    } else if (sphere.position.x + sphere.getScale() + vectorMove.x > wallsWidth) {
-        sphere.position.setX(wallsWidth - sphere.getScale());
-        sphere.direction.setX(-1 * Math.abs(sphere.direction.getComponent(0)));
+    } else if (pos.x + sphere.getScale() + vectorMove.x > wallsWidth) {
+        sphere.setPosition({
+            x: wallsWidth - sphere.getScale()
+        });
+        sphere.setDirection({
+            x: -1 * Math.abs(dir.x)
+        });
 
 
-    } else if (sphere.position.x - sphere.getScale() + vectorMove.x < -wallsWidth) {
-        sphere.position.setX(-wallsWidth + sphere.getScale());
-        sphere.direction.setX(Math.abs(sphere.direction.getComponent(0)));
+    } else if (pos.x - sphere.getScale() + vectorMove.x < -wallsWidth) {
+        sphere.setPosition({
+            x: -wallsWidth + sphere.getScale()
+        });
+        sphere.setDirection({
+            x: Math.abs(dir.x)
+        });
 
     }
 
-    if ((sphere.position.y + sphere.getScale() + vectorMove.y <= wallsWidth) && (sphere.position.y - sphere.getScale() + vectorMove.y >= -wallsWidth)) {
+    if ((pos.y + sphere.getScale() + vectorMove.y <= wallsWidth) && (pos.y - sphere.getScale() + vectorMove.y >= -wallsWidth)) {
+        sphere.setPosition({
+            y: pos.y + vectorMove.y
+        });
 
-        sphere.position.setY(sphere.position.y + vectorMove.y);
-    } else if (sphere.position.y + sphere.getScale() + vectorMove.y > wallsWidth) {
-        sphere.position.setY(wallsWidth - sphere.getScale());
-        sphere.direction.setY(-1 * Math.abs(sphere.direction.getComponent(1)));
+    } else if (pos.y + sphere.getScale() + vectorMove.y > wallsWidth) {
+        sphere.setPosition({
+            y: wallsWidth - sphere.getScale()
+        });
+        sphere.setDirection({
+            y: -1 * Math.abs(dir.y)
+        });
 
+    } else if (pos.y - sphere.getScale() + vectorMove.y < -wallsWidth) {
 
-    } else if (sphere.position.y - sphere.getScale() + vectorMove.y < -wallsWidth) {
-        sphere.position.setY(-wallsWidth + sphere.getScale());
-        sphere.direction.setY(Math.abs(sphere.direction.getComponent(1)));
+        sphere.setPosition({
+            y: -wallsWidth + sphere.getScale()
+        });
+        sphere.setDirection({
+            y: Math.abs(dir.y)
+        });
 
     }
 }
 
+
+
 /*Check the boarders for the mainBALL. I create a new function to avoid if statements in 
 the same function for enemies. Because in mainBall we don't need to change direction*/
+
 function checkBoarders(sphere, vectorMove) {
 
-    if ((sphere.position.x + sphere.getScale() + vectorMove.x + 0.01 <= wallsWidth) && (sphere.position.x - sphere.getScale() + vectorMove.x - 0.01 >= -wallsWidth)) {
-        sphere.position.setX(sphere.position.x + vectorMove.x);
+    var pos = sphere.getPosition();
 
-    } else if (sphere.position.x + sphere.getScale() + vectorMove.x > wallsWidth) {
-        sphere.position.setX(wallsWidth - sphere.getScale());
+    if ((pos.x + sphere.getScale() + vectorMove.x + 0.01 <= wallsWidth) && (pos.x - sphere.getScale() + vectorMove.x - 0.01 >= -wallsWidth)) {
+        sphere.setPosition({
+            x: pos.x + vectorMove.x
+        });
 
-    } else if (sphere.position.x - sphere.getScale() + vectorMove.x < -wallsWidth) {
-        sphere.position.setX(-wallsWidth + sphere.getScale());
+    } else if (pos.x + sphere.getScale() + vectorMove.x > wallsWidth) {
+        sphere.setPosition({
+            x: wallsWidth - sphere.getScale()
+        });
+
+    } else if (pos.x - sphere.getScale() + vectorMove.x < -wallsWidth) {
+        sphere.setPosition({
+            x: -wallsWidth + sphere.getScale()
+        });
+
+    }
+
+    if ((pos.y + sphere.getScale() + vectorMove.y <= wallsWidth) && (pos.y - sphere.getScale() + vectorMove.y >= -wallsWidth)) {
+        sphere.setPosition({
+            y: pos.y + vectorMove.y
+        });
+
+    } else if (pos.y + sphere.getScale() + vectorMove.y > wallsWidth) {
+        sphere.setPosition({
+            y: wallsWidth - sphere.getScale()
+        });
+
+    } else if (pos.y - sphere.getScale() + vectorMove.y < -wallsWidth) {
+
+        sphere.setPosition({
+            y: -wallsWidth + sphere.getScale()
+        });
 
     }
 
-    if ((sphere.position.y + sphere.getScale() + vectorMove.y <= wallsWidth) && (sphere.position.y - sphere.getScale() + vectorMove.y >= -wallsWidth)) {
-        sphere.position.setY(sphere.position.y + vectorMove.y);
-
-    } else if (sphere.position.y + sphere.getScale() + vectorMove.y > wallsWidth) {
-        sphere.position.setY(wallsWidth - sphere.getScale());
-
-    } else if (sphere.position.y - sphere.getScale() + vectorMove.y < -wallsWidth) {
-        sphere.position.setY(-wallsWidth + sphere.getScale());
-
-    }
 }

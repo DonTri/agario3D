@@ -37,25 +37,43 @@ function createSphere(params) {
 
     scene.add(sphere);
 
-    move(params.position);
+    setPosition(params.position);
+    setDirection(params.direction);
 
     setTime();
 
-
-
-    function move(args) {
-        sphere.position.set(args.x, args.y, args.z);
-    }
-
-
-
     function getPosition() {
-        return params.position;
+        return sphere.position.clone();
     }
 
-    function setPosition() {
+    function setPosition(args) {
+        if (args.x != undefined) {
+            sphere.position.setX(args.x);
+        }
+        if (args.y != undefined) {
+            sphere.position.setY(args.y);
+        }
+        if (args.z != undefined) {
+            sphere.position.setZ(args.z);
+        }
+
 
     }
+
+    function getDirection() {
+        return params.direction.clone();
+    }
+
+    function setDirection(args) {
+        if (args.x != undefined) {
+            params.direction.setX(args.x);
+        }
+        if (args.y != undefined) {
+            params.direction.setY(args.y);
+        }
+        params.direction.normalize();
+    }
+
 
     function changeColor(args) {
         // color se morfi 0xff0000(kokino)
@@ -112,13 +130,14 @@ function createSphere(params) {
     return {
         getScale: getScale, // we should use a function instead of the property directly
         getPosition: getPosition,
-        position: sphere.position,
+        setPosition: setPosition,
+        getDirection: getDirection,
+        setDirection: setDirection,
         setSpeed: setSpeed,
         getSpeed: getSpeed,
         setTime: setTime,
         getTime: getTime,
         getAcceleration: getAcceleration,
-        direction: params.direction,
         changeColor: changeColor,
         scaleMe: scaleMe,
         removeMe: removeMe,

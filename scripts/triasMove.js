@@ -6,6 +6,7 @@ var controls;
 var directionalLight;
 var lightPos;
 var lightPosInit;
+var camera_position_z = 2500;
 
 init();
 animate();
@@ -22,7 +23,7 @@ function init() {
 
     // Create camera.
     camera = new THREE.PerspectiveCamera(20, window.innerWidth / window.innerHeight, 1, 4100);
-    camera.position.z = 2500;
+    camera.position.setZ(camera_position_z);
 
     // Create scene.
     scene = new THREE.Scene();
@@ -69,13 +70,9 @@ function init() {
     // Create the mainBall.
     mainBall = createSphere({
         color: '#FF0040',
-        position: {
-            x: 0,
-            y: 0,
-            z: 0
-        },
+        position: new THREE.Vector3(0, 0, 0),
         scale: 20, // now I use this instead of radius
-        direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
+        direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0)
 
     });
 
@@ -87,12 +84,11 @@ function init() {
             // radius: (20 * Math.random() + 0),
             scale: (20 * Math.random() + 10), // here too
             color: generateColor(),
-            position: {
-                x: 2 * wallsWidth * Math.random() - wallsWidth,
-                y: 2 * wallsWidth * Math.random() - wallsWidth,
-                z: 0
-            },
-            direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0).normalize()
+            position: new THREE.Vector3(
+                2 * wallsWidth * Math.random() - wallsWidth,
+                2 * wallsWidth * Math.random() - wallsWidth,
+                0),
+            direction: new THREE.Vector3(Math.random() - 1, Math.random() - 1, 0)
         }));
     }
 

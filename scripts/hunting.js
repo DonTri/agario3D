@@ -27,7 +27,7 @@ function weEat() {
                 scale: Math.cbrt(Math.pow(mainBall.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(mainBall.getScale(), 2) * r_plus + 3 * mainBall.getScale() * Math.pow(r_plus, 2))
             });*/
 
-            tweenForEating({
+            tweenForHunter({
                 sphere: mainBall,
                 scale: Math.cbrt(Math.pow(mainBall.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(mainBall.getScale(), 2) * r_plus + 3 * mainBall.getScale() * Math.pow(r_plus, 2))
             });
@@ -99,7 +99,7 @@ function hunting(sphere, j) {
         //enemies[nearest_ball.enemy_index] = undefined;
 
         sphere.scaleMe({
-            scale: Math.cbrt(Math.pow(sphere.getScale(), 3) + Math.pow(r_plus, 3) + 3 * Math.pow(sphere.getScale(), 2) * r_plus + 3 * sphere.getScale() * Math.pow(r_plus, 2))
+            scale: Math.cbrt(Math.pow(sphere.getScale(), 3) + Math.pow(r_plus/6, 3) + 3 * Math.pow(sphere.getScale(), 2) * r_plus + 3 * sphere.getScale() * Math.pow(r_plus/6, 2))
         });
 
         /*tweenForEating({

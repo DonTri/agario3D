@@ -57,8 +57,8 @@ function init() {
 
     directionalLight.target.position.set(lightPos.x, lightPos.y, 0)
 
-    var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
-    scene.add(helper);
+    // var helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    // scene.add(helper);
 
     scene.add(directionalLight);
 
